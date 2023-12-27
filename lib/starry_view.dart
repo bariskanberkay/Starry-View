@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'particle.dart';
 
 class StarryView extends StatefulWidget {
-  const StarryView({Key? key,  this.opacity = 1, this.allowReCreate, this.colors}) : super(key: key);
+  const StarryView({Key? key,  this.opacity = 1, this.allowReCreate, this.colors, this.topContext}) : super(key: key);
 
   final double opacity;
+  final BuildContext? topContext;
   final bool? allowReCreate;
   final List<Color>? colors;
 
@@ -105,20 +106,20 @@ class _StarryViewState extends State<StarryView> with SingleTickerProviderStateM
     }
 
 
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    bool isDarkMode = Theme.of(widget.topContext ?? context).brightness == Brightness.dark;
     for (var i = 0; i < count; i++) {
       final color = isBig ? colors[Random().nextInt(colors.length)] : (isDarkMode ? Colors.white : Colors.black);
       final position = Offset(
-        Random().nextDouble() * MediaQuery.of(context).size.width,
-        Random().nextDouble() * MediaQuery.of(context).size.height,
+        Random().nextDouble() * MediaQuery.of(widget.topContext ?? context).size.width,
+        Random().nextDouble() * MediaQuery.of(widget.topContext ?? context).size.height,
       );
       final size = isBig ? Random().nextDouble() * 40 + 20 : Random().nextDouble() * 2;
       final opacity = Random().nextDouble();
       final scale = Random().nextDouble() * 1.5 + 0.5;
 
       final targetPosition = Offset(
-        Random().nextDouble() * MediaQuery.of(context).size.width,
-        Random().nextDouble() * MediaQuery.of(context).size.height,
+        Random().nextDouble() * MediaQuery.of(widget.topContext ?? context).size.width,
+        Random().nextDouble() * MediaQuery.of(widget.topContext ?? context).size.height,
       );
       final targetScale = Random().nextDouble() * 1.5 + 0.5;
 
@@ -136,7 +137,7 @@ class _StarryViewState extends State<StarryView> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    bool isDarkMode = Theme.of(widget.topContext ?? context).brightness == Brightness.dark;
     return Container(
       color: isDarkMode ? Colors.black.withOpacity(widget.opacity) : Colors.white.withOpacity(widget.opacity),
 
