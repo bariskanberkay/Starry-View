@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'particle.dart';
 
 class StarryView extends StatefulWidget {
-  const StarryView({Key? key,  this.opacity = 1}) : super(key: key);
+  const StarryView({Key? key,  this.opacity = 1, this.allowReCreate, this.colors}) : super(key: key);
 
   final double opacity;
+  final bool? allowReCreate;
+  final List<Color>? colors;
 
   @override
   State<StarryView> createState() => _StarryViewState();
@@ -18,7 +20,9 @@ class _StarryViewState extends State<StarryView> with SingleTickerProviderStateM
   late List<Particle> bigParticles;
   final int particleCount = 100;
   final int bigParticleCount = 10;
-  final List<Color> colors = [
+
+
+  List<Color> colors = [
     Colors.yellow,
     Colors.blue,
     Colors.pink,
@@ -53,7 +57,7 @@ class _StarryViewState extends State<StarryView> with SingleTickerProviderStateM
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if(!isCreated){
+    if(!isCreated || (widget.allowReCreate ?? false) ){
       particles = _generateParticles(particleCount);
       bigParticles = _generateParticles(bigParticleCount, isBig: true);
 
@@ -91,6 +95,16 @@ class _StarryViewState extends State<StarryView> with SingleTickerProviderStateM
 
   List<Particle> _generateParticles(int count, {bool isBig = false}) {
     List<Particle> generatedParticles = [];
+
+    if(widget.colors != null){
+      if(widget.colors!.isNotEmpty){
+        setState(() {
+            colors = widget.colors!;
+        });
+      }
+    }
+
+
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     for (var i = 0; i < count; i++) {
       final color = isBig ? colors[Random().nextInt(colors.length)] : (isDarkMode ? Colors.white : Colors.black);
