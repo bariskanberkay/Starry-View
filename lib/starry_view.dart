@@ -137,7 +137,7 @@ class _StarryViewState extends State<StarryView> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode = Theme.of(widget.topContext ?? context).brightness == Brightness.dark;
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Container(
       color: isDarkMode ? Colors.black.withOpacity(widget.opacity) : Colors.white.withOpacity(widget.opacity),
 
