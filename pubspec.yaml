@@ -1,6 +1,6 @@
 name: starry_view
 description: "Background Starry View"
-version: 0.0.3
+version: 0.0.4
 
 environment:
   sdk: '>=3.2.2 <4.0.0'

@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'particle.dart';
 
 class StarryView extends StatefulWidget {
-  const StarryView({Key? key,  this.opacity = 1, this.allowReCreate, this.colors, this.topContext}) : super(key: key);
+  const StarryView({Key? key,  this.opacity = 1, this.allowReCreate, this.colors, this.topContext, this.particleCount=100, this.bigParticleCount = 10}) : super(key: key);
 
   final double opacity;
   final BuildContext? topContext;
   final bool? allowReCreate;
   final List<Color>? colors;
+  final int? particleCount;
+  final int? bigParticleCount;
 
   @override
   State<StarryView> createState() => _StarryViewState();
@@ -19,8 +21,9 @@ class StarryView extends StatefulWidget {
 class _StarryViewState extends State<StarryView> with SingleTickerProviderStateMixin {
   late List<Particle> particles;
   late List<Particle> bigParticles;
-  final int particleCount = 100;
-  final int bigParticleCount = 10;
+
+   int particleCount = 100;
+   int bigParticleCount = 10;
 
 
   List<Color> colors = [
@@ -43,6 +46,10 @@ class _StarryViewState extends State<StarryView> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
+
+    particleCount = widget.particleCount != null ?  widget.particleCount! : 100;
+    bigParticleCount = widget.bigParticleCount != null ?  widget.bigParticleCount! : 10;
+
     _animationController = AnimationController(
       duration: const Duration(seconds: 5),
       vsync: this,
